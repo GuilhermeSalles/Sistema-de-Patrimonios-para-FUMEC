@@ -192,8 +192,6 @@ $result_equipamento = mysqli_query($conexao, $tabela_equipamento);
                         <th class="text-center">Unidade</th>
                         <th class="text-center">Setor</th>
                         <th class="text-center">Usuario</th>
-                        <th class="text-center">data</th>
-                        <th class="text-center">Manutenção</th>
                         <?php if ($_SESSION['nivel'] == "Administrativo" or $_SESSION['nivel'] == "Tecnico") { ?>
                             <th class="text-center">Ação</th>
                         <?php } ?>
@@ -206,17 +204,47 @@ $result_equipamento = mysqli_query($conexao, $tabela_equipamento);
                             <td class="text-center"><?php echo $rows['unidade']; ?></td>
                             <td class="text-center"><?php echo $rows['setor']; ?></td>
                             <td class="text-center"><?php echo $rows['usuario']; ?></td>
-                            <td class="text-center"><?php echo $rows['data']; ?></td>
-                            <td class="text-center"><?php echo $rows['manutencao']; ?></td>
                             <?php if ($_SESSION['nivel'] == "Administrativo") { ?>
                                 <td>
                                     <button type="button" class="btn btn-warning text-center" data-toggle="modal" data-target="#editar" data-id="<?php echo $rows['id']; ?>" data-equipamento="<?php echo $rows['equipamento']; ?>" data-patrimonio="<?php echo $rows['patrimonio'] ?>" data-serie="<?php echo $rows['serie']; ?>" data-unidade="<?php echo $rows['unidade']; ?>" data-setor="<?php echo $rows['setor']; ?>" data-coordenada="<?php echo $rows['coordenada']; ?>" data-usuario="<?php echo $rows['usuario']; ?>" data-manutencao="<?php echo $rows['manutencao']; ?>">Editar</button>
+                                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#excluir" data-id="<?php echo $rows['id']; ?>">Excluir</button>
                                 </td>
                             <?php } ?>
                         </tr>
                     <?php } ?>
                 </tbody>
             </table>
+        </div>
+    </div>
+
+    <!-- excluir -->
+    <div class="modal fade" id="excluir" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title bold" style="margin-left: 190px;" id="exampleModalLabel">Excluir </h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="modal-body">
+
+                    <form method="POST" action="exclui.php" enctype="multipart/form-data">
+                        <input name="id" type="hidden" id="id">
+
+                        <div class="text-center">
+                            <br>
+                            <h2 style="margin-bottom: 0px; color: rgb(75, 75, 75);">Vai me excluir mesmo???</h2>
+                            <br>
+                        </div>
+                       
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-outline-success">Sim rs</button>
+                            <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Mentira</button>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
         </div>
     </div>
 
@@ -332,6 +360,18 @@ $result_equipamento = mysqli_query($conexao, $tabela_equipamento);
         })
     </script>
     <br>
+
+    <script type="text/javascript">
+        $('#excluir').on('show.bs.modal', function(event) {
+            var button = $(event.relatedTarget) // Button that triggered the modal
+            var recipient = button.data('id') // Extract info from data-* attributes
+            // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+            // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+            var modal = $(this)
+            modal.find('#id').val(recipient)
+
+        })
+    </script>
 </body>
 
 <?php include 'footer.php' ?>
