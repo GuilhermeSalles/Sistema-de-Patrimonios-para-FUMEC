@@ -1,6 +1,13 @@
 <?php
 include_once("../ConexaoBd/config.php");
-$result_patrimonio = "SELECT * FROM patrimonio order by id DESC";
+
+if (!empty($_GET['busca'])) {
+    $data = $_GET['busca'];
+    $result_patrimonio = "SELECT * FROM patrimonio WHERE equipamento LIKE '%$data%' or patrimonio LIKE '%$data%' or serie LIKE '%$data%' or unidade LIKE '%$data%' or setor LIKE '%$data%' or usuario LIKE '%$data%' or manutencao LIKE '%$data%' ORDER BY id DESC";
+} else {
+    $result_patrimonio = "SELECT * FROM patrimonio order by id DESC";
+}
+
 $result = mysqli_query($conexao, $result_patrimonio);
 
 $tabela_setor = "SELECT * FROM setor order by id";
@@ -48,6 +55,7 @@ $result_equipamento = mysqli_query($conexao, $tabela_equipamento);
             <h4 class="bold">Lista de emprestimos Ouro Verde</h4>
             <hr class="hr3">
         </div>
+
         <div class="row">
             <div class="ml-3">
                 <?php if ($_SESSION['nivel'] == "Administrativo" or $_SESSION['nivel'] == "Tecnico") { ?>
@@ -181,6 +189,18 @@ $result_equipamento = mysqli_query($conexao, $tabela_equipamento);
                 </div>
                 <!-- Fim Modal -->
             </div>
+            <div class="col-6">
+                <form method="GET" action="">
+                    <div class="box-search">
+                        <input type="text" class="form-control w-25" placeholder="Pesquisar" name="busca">
+                        <button class="btn btn-danger">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                                <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
+                            </svg>
+                        </button>
+                    </div>
+                </form>
+            </div>
             <br>
             <br>
         </div>
@@ -204,7 +224,7 @@ $result_equipamento = mysqli_query($conexao, $tabela_equipamento);
                             <td class="text-center"><?php echo $rows['unidade']; ?></td>
                             <td class="text-center"><?php echo $rows['setor']; ?></td>
                             <td class="text-center"><?php echo $rows['usuario']; ?></td>
-                            <?php if ($_SESSION['nivel'] == "Administrativo") { ?>
+                            <?php if ($_SESSION['nivel'] == "Administrativo" or $_SESSION['nivel'] == "Tecnico") { ?>
                                 <td>
                                     <button type="button" class="btn btn-warning text-center" data-toggle="modal" data-target="#editar" data-id="<?php echo $rows['id']; ?>" data-equipamento="<?php echo $rows['equipamento']; ?>" data-patrimonio="<?php echo $rows['patrimonio'] ?>" data-serie="<?php echo $rows['serie']; ?>" data-unidade="<?php echo $rows['unidade']; ?>" data-setor="<?php echo $rows['setor']; ?>" data-coordenada="<?php echo $rows['coordenada']; ?>" data-usuario="<?php echo $rows['usuario']; ?>" data-manutencao="<?php echo $rows['manutencao']; ?>">Editar</button>
                                     <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#excluir" data-id="<?php echo $rows['id']; ?>">Excluir</button>
@@ -236,7 +256,7 @@ $result_equipamento = mysqli_query($conexao, $tabela_equipamento);
                             <h2 style="margin-bottom: 0px; color: rgb(75, 75, 75);">Vai me excluir mesmo???</h2>
                             <br>
                         </div>
-                       
+
                         <div class="modal-footer">
                             <button type="submit" class="btn btn-outline-success">Sim rs</button>
                             <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Mentira</button>

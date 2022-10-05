@@ -54,56 +54,21 @@ html {
   scroll-behavior: smooth;
 }
 
-/* filtro */
-
-.main-btn {
-  background-color: #fe5722;
-  color: #FFF;
-  text-transform: uppercase;
-  width: 200px;
-  height: 60px;
-  padding: 10px 20px;
-  border: 3px solid transparent;
-  border-radius: 15px;
-  transition: 0.3s;
+.table-bg{
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 15px 15px 0 0;
 }
 
-.project-box {
-  margin-bottom: 30px;
-}
-
-#filter-btn-box {
-  margin-bottom: 50px;
-  text-align: center;
-}
-
-#area .filter-btn {
-  color: rgb(85, 85, 85);
-  border: 1px solid #fe5722;
-  box-shadow: rgba(75, 75, 75, 0.25) 0px 5px 6px, rgba(75, 75, 75, 0.22) 0px 5px 5px;
-  background-color: transparent;
-  text-transform: none;
-  margin: 0 15px;
-  min-width: 100px;
-  width: auto;
-  height: 40px;
-  line-height: 40px;
-  padding: 0 20px;
-}
-
-#area .filter-btn.active, #area .filter-btn:hover {
-  color: #FFF;
-  border: 1px solid #fe5722;
-  background-color: #fe5722;
+.box-search{
+  margin-top: 10px;
+  margin-bottom: 10px;
+  display: flex;
+  width: 1520px;
+  justify-content: center;
+  gap: .1%;
 }
 
 /* Textos turno */
-mark {
-  background-color: rgba(255, 60, 0, 0.322);
-}
-.markAbertas {
-  background-color: rgba(9, 255, 0, 0.315);
-}
 
 h2 {
   font-weight: bold;
@@ -151,15 +116,6 @@ h2 {
   box-shadow: rgba(75, 75, 75, 0.25) 0px 14px 18px, rgba(75, 75, 75, 0.22) 0px 5px 5px;
 }
 
-/* Link NIT */
-
-.linkNIT {
-  color: #FE5722FF;
-}
-
-.linkNIT:hover {
-  color: rgba(232, 114, 23, 0.755);
-}
 
 /* Boto carrossel */
 
@@ -207,13 +163,6 @@ ul.b {
 
 /* hr */
 
-.filtro {
-  border: 20px;
-  height: 5px;
-  margin-top: 0%;
-  background-image: linear-gradient(to right, transparent, #FE5722FF, transparent);
-  box-shadow: rgba(75, 75, 75, 0.25) 0px 4px 8px, rgba(75, 75, 75, 0.22) 0px 5px 5px;
-}
 
 .divisao {
   width: 100%;

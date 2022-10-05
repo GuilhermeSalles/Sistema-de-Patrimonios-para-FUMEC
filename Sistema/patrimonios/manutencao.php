@@ -1,6 +1,6 @@
 <?php
 include_once("../ConexaoBd/config.php");
-$result_patrimonio = "SELECT * FROM patrimonio WHERE manutencao != 'Funcionando';";
+$result_patrimonio = "SELECT * FROM patrimonio WHERE manutencao != 'Funcionando' order by id DESC";
 $result = mysqli_query($conexao, $result_patrimonio);
 
 
