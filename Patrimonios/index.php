@@ -8,7 +8,7 @@ session_start();
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="shortcut icon" href="../img/logo.png" type="image/png">
+    <link rel="shortcut icon" href="img/logo-fumec.png" type="image/png">
     <!-- Scripts (jQuery não pode ser o slim que vem do Boostrap) -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
@@ -17,7 +17,7 @@ session_start();
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <link rel="stylesheet" href="CSS/Principal.css">
 
-    <title>CEPROCAMP - SISTEMA</title>
+    <title>FUMEC - PATRIMONIOS</title>
 
 </head>
 
@@ -26,7 +26,7 @@ session_start();
     <div class="container">
         <div class="row justify-content-center align-items-center vh-100">
             <row class="col-4">
-                <img src="/img/ceprocamp.png" style="width: 200px; height: 200px;" class="rounded mx-auto d-block" alt="Imagem CEPROCAMP">
+                <img src="img/fumec.png" style="width: 200px; height: 200px;" class="rounded mx-auto d-block mb-4" alt="Imagem CEPROCAMP">
 
                 <form class="form-signin" method="POST" action="valida.php">
                     <h3 class="bold text-center">Área de Login</h3>
