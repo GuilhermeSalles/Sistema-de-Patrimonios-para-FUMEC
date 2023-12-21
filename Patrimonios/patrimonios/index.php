@@ -1,16 +1,10 @@
 <?php
 include_once("../ConexaoBd/config.php");
-$result_patrimonio = "SELECT * FROM patrimonio order by id DESC";
-$result = mysqli_query($conexao, $result_patrimonio);
-
 $tabela_setor = "SELECT * FROM setor order by id";
 $result_setor = mysqli_query($conexao, $tabela_setor);
 
 $tabela_unidade = "SELECT * FROM unidade order by id";
 $result_unidade = mysqli_query($conexao, $tabela_unidade);
-
-$tabela_manutencao = "SELECT * FROM manutencao order by id";
-$result_manutencao = mysqli_query($conexao, $tabela_manutencao);
 
 $tabela_usuario = "SELECT * FROM usuario_equipamento";
 $result_usuario = mysqli_query($conexao, $tabela_usuario);
@@ -18,6 +12,18 @@ $result_usuario = mysqli_query($conexao, $tabela_usuario);
 $tabela_equipamento = "SELECT * FROM equipamento order by id";
 $result_equipamento = mysqli_query($conexao, $tabela_equipamento);
 
+
+if (!empty($_GET['search'])) {
+    $data = $_GET['search'];
+    $sql = "SELECT * FROM `patrimonio` WHERE patrimonio LIKE ? OR equipamento LIKE ? OR setor LIKE ? ORDER BY `id` DESC";
+    $stmt = $conexao->prepare($sql);
+    $stmt->bind_param('sss', $data, $data, $data);
+    $stmt->execute();
+    $result = $stmt->get_result();
+} else {
+    $result_patrimonio = "SELECT * FROM patrimonio order by id DESC";
+    $result = mysqli_query($conexao, $result_patrimonio);
+}
 
 
 ?>
@@ -45,170 +51,185 @@ $result_equipamento = mysqli_query($conexao, $tabela_equipamento);
     <div class="container">
 
         <div class="text-center">
-            <h4 class="bold">Lista de patrimonio Ouro Verde</h4>
+            <h4 class="bold">Lista de patrimonios</h4>
             <hr class="hr3">
         </div>
         <div class="row">
-            <div class="ml-3">
-                <?php if ($_SESSION['nivel'] == "3" or $_SESSION['nivel'] == "2") { ?>
-                    <button type="button" class="btn btn-primary btn-lg btn-block" data-toggle="modal" data-target="#cadastrar">Cadastrar</button>
-                    <br>
-                <?php } ?>
-                <!-- Modal cadastrar -->
-                <div class="modal fade" id="cadastrar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title bold" id="exampleModalLabel">Cadastro de Patrimônio</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                                <form method="POST" action="processa.php" enctype="multipart/form-data">
 
-                                    <div class="text-center">
-                                        <h2 style="margin-bottom: 0px; color: rgb(75, 75, 75);">Dados</h2>
-                                        <hr class="hr3">
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label for="recipient-equipamento" class="col-form-label bold">Nome do equipamento:</label>
-                                        <select class="form-control" id="recipient-equipamento" name="equipamento">
-                                            <?php
-                                            while ($row = mysqli_fetch_assoc($result_equipamento)) { ?>
-
-                                                <option value="<?php echo $row['Nome']; ?>"><?php echo $row['Nome']; ?></option>
-                                            <?php
-                                            }
-
-                                            ?>
-                                        </select>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label for="recipient-patrimonio" class="col-form-label bold">Número de Patrimônio:</label>
-                                        <input type="text" class="form-control" name="patrimonio" id="recipient-patrimonio" autocomplete="off" placeholder="Número de Patrimônio">
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label for="recipient-serie" class="col-form-label bold">Número de Série:</label>
-                                        <input type="text" class="form-control" name="serie" id="recipient-serie" autocomplete="off" placeholder="Número de Série">
-                                    </div>
-
-
-                                    <div class="text-center">
-                                        <h2 style="margin-bottom: 0px; color: rgb(75, 75, 75);">Localização</h2>
-                                        <hr class="hr3">
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label for="recipient-unidade" class="col-form-label bold">Unidade:</label>
-                                        <select class="form-control" id="recipient-unidade" name="unidade">
-                                            <?php
-                                            while ($row = mysqli_fetch_assoc($result_unidade)) { ?>
-
-                                                <option value="<?php echo $row['Nome']; ?>"><?php echo $row['Nome']; ?></option>
-                                            <?php
-                                            }
-
-                                            ?>
-                                        </select>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label for="recipient-setor" class="col-form-label bold">Setor:</label>
-                                        <select class="form-control" id="recipient-setor" name="setor">
-                                            <?php
-                                            while ($row = mysqli_fetch_assoc($result_setor)) { ?>
-
-                                                <option value="<?php echo $row['Nome']; ?>"><?php echo $row['Nome']; ?></option>
-                                            <?php
-                                            }
-
-                                            ?>
-                                        </select>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label for="recipient-coordenada" class="col-form-label bold">Coordenada:</label>
-                                        <input type="text" class="form-control" name="coordenada" id="recipient-coordenada" autocomplete="off" placeholder="Digite coordenadas legíveis!!">
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label for="recipient-usuario" class="col-form-label bold">Usuário:</label>
-                                        <select class="form-control" id="recipient-usuario" name="usuario">
-                                            <?php
-                                            while ($row = mysqli_fetch_assoc($result_usuario)) { ?>
-
-                                                <option value="<?php echo $row['Nome']; ?>"><?php echo $row['Nome']; ?></option>
-                                            <?php
-                                            }
-
-                                            ?>
-                                        </select>
-                                    </div>
-
-
-                                    <div class="text-center">
-                                        <h2 style="margin-bottom: 0px; color: rgb(75, 75, 75);">Observação</h2>
-                                        <hr class="hr3">
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label for="recipient-usuario" class="col-form-label bold">Observação:</label>
-                                        <textarea class="form-control" id="recipient-observacao" name="observacao" rows="3"></textarea>
-                                    </div>
-
-                                    <div class="modal-footer">
-                                        <button type="submit" class="btn btn-outline-success">Salvar</button>
-                                        <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Cancelar</button>
-                                    </div>
-                                </form>
-
-                            </div>
+            <div class="row col-12 justify-content-between">
+                <div class="ml-5 col-8">
+                    <div class="row box-search d-flex justify-content-between">
+                        <div class="col-6">
+                            <input type="text" id="pesquisar" style="box-shadow: rgba(75, 75, 75, 0.25) 5px 5px 5px, rgba(75, 75, 75, 0.22) 5px 5px 5px;" class="form-control" size="45" name="pesquisa" autocomplete="off" placeholder="Busque pelo nome ou patrimonio!">
+                        </div>
+                        <div class="col-6">
+                            <button type="search" onclick="searchData()" class="btn btn-primary">Buscar</button>
                         </div>
                     </div>
                 </div>
-                <!-- Fim Modal -->
+
+                <div class="ml-3 col-2">
+                    <?php if ($_SESSION['nivel'] == "3" or $_SESSION['nivel'] == "2") { ?>
+                        <button type="button" class="btn btn-primary btn-lg btn-block" data-toggle="modal" data-target="#cadastrar">Cadastrar</button>
+                        <br>
+                    <?php } ?>
+
+
+                </div>
             </div>
-            <br>
-            <br>
+            <!-- Modal cadastrar -->
+            <div class="modal fade" id="cadastrar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title bold" id="exampleModalLabel">Cadastro de Patrimônio</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form method="POST" action="processa.php" enctype="multipart/form-data">
+
+                                <div class="text-center">
+                                    <h2 style="margin-bottom: 0px; color: rgb(75, 75, 75);">Dados</h2>
+                                    <hr class="hr3">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="recipient-equipamento" class="col-form-label bold">Nome do equipamento:</label>
+                                    <select class="form-control" id="recipient-equipamento" name="equipamento">
+                                        <?php
+                                        while ($row = mysqli_fetch_assoc($result_equipamento)) { ?>
+
+                                            <option value="<?php echo $row['Nome']; ?>"><?php echo $row['Nome']; ?></option>
+                                        <?php
+                                        }
+
+                                        ?>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="recipient-patrimonio" class="col-form-label bold">Número de Patrimônio:</label>
+                                    <input type="text" class="form-control" name="patrimonio" id="recipient-patrimonio" autocomplete="off" placeholder="Número de Patrimônio">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="recipient-serie" class="col-form-label bold">Número de Série:</label>
+                                    <input type="text" class="form-control" name="serie" id="recipient-serie" autocomplete="off" placeholder="Número de Série">
+                                </div>
+
+
+                                <div class="text-center">
+                                    <h2 style="margin-bottom: 0px; color: rgb(75, 75, 75);">Localização</h2>
+                                    <hr class="hr3">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="recipient-unidade" class="col-form-label bold">Unidade:</label>
+                                    <select class="form-control" id="recipient-unidade" name="unidade">
+                                        <?php
+                                        while ($row = mysqli_fetch_assoc($result_unidade)) { ?>
+
+                                            <option value="<?php echo $row['Nome']; ?>"><?php echo $row['Nome']; ?></option>
+                                        <?php
+                                        }
+
+                                        ?>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="recipient-setor" class="col-form-label bold">Setor:</label>
+                                    <select class="form-control" id="recipient-setor" name="setor">
+                                        <?php
+                                        while ($row = mysqli_fetch_assoc($result_setor)) { ?>
+
+                                            <option value="<?php echo $row['Nome']; ?>"><?php echo $row['Nome']; ?></option>
+                                        <?php
+                                        }
+
+                                        ?>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="recipient-coordenada" class="col-form-label bold">Coordenada:</label>
+                                    <input type="text" class="form-control" name="coordenada" id="recipient-coordenada" autocomplete="off" placeholder="Digite coordenadas legíveis!!">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="recipient-usuario" class="col-form-label bold">Usuário:</label>
+                                    <select class="form-control" id="recipient-usuario" name="usuario">
+                                        <?php
+                                        while ($row = mysqli_fetch_assoc($result_usuario)) { ?>
+
+                                            <option value="<?php echo $row['Nome']; ?>"><?php echo $row['Nome']; ?></option>
+                                        <?php
+                                        }
+
+                                        ?>
+                                    </select>
+                                </div>
+
+
+                                <div class="text-center">
+                                    <h2 style="margin-bottom: 0px; color: rgb(75, 75, 75);">Observação</h2>
+                                    <hr class="hr3">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="recipient-usuario" class="col-form-label bold">Observação:</label>
+                                    <textarea class="form-control" id="recipient-observacao" name="observacao" rows="3"></textarea>
+                                </div>
+
+                                <div class="modal-footer">
+                                    <button type="submit" class="btn btn-outline-success">Salvar</button>
+                                    <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Cancelar</button>
+                                </div>
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Fim Modal -->
         </div>
-        <div class="container">
-            <table class="table table-hover ">
-                <thead>
+    </div>
+    <div class="container">
+        <table class="table table-hover ">
+            <thead>
+                <tr>
+                    <th class="text-center">Nome Equipamento</th>
+                    <th class="text-center">Unidade</th>
+                    <th class="text-center">Setor</th>
+                    <th class="text-center">Coordenada</th>
+                    <th class="text-center">Usuario</th>
+                    <th class="text-center">Observação</th>
+                    <?php if ($_SESSION['nivel'] == "3" or $_SESSION['nivel'] == "2") { ?>
+                        <th class="text-center">Ação</th>
+                    <?php } ?>
+                </tr>
+            </thead>
+            <tbody>
+                <?php while ($rows = mysqli_fetch_assoc($result)) { ?>
                     <tr>
-                        <th class="text-center">Nome Equipamento</th>
-                        <th class="text-center">Unidade</th>
-                        <th class="text-center">Setor</th>
-                        <th class="text-center">Coordenada</th>
-                        <th class="text-center">Usuario</th>
-                        <th class="text-center">Observação</th>
+                        <td class="text-center"><?php echo $rows['equipamento']; ?></td>
+                        <td class="text-center"><?php echo $rows['unidade']; ?></td>
+                        <td class="text-center"><?php echo $rows['setor']; ?></td>
+                        <td class="text-center"><?php echo $rows['coordenada']; ?></td>
+                        <td class="text-center"><?php echo $rows['usuario']; ?></td>
+                        <td class="text-center"><?php echo $rows['observacao']; ?></td>
                         <?php if ($_SESSION['nivel'] == "3" or $_SESSION['nivel'] == "2") { ?>
-                            <th class="text-center">Ação</th>
+                            <td>
+                                <button type="button" class="btn btn-warning text-center" data-toggle="modal" data-target="#editar" data-id="<?php echo $rows['id']; ?>" data-equipamento="<?php echo $rows['equipamento']; ?>" data-patrimonio="<?php echo $rows['patrimonio'] ?>" data-serie="<?php echo $rows['serie']; ?>" data-unidade="<?php echo $rows['unidade']; ?>" data-setor="<?php echo $rows['setor']; ?>" data-coordenada="<?php echo $rows['coordenada']; ?>" data-usuario="<?php echo $rows['usuario']; ?>" data-observacao="<?php echo $rows['observacao']; ?>">Editar</button>
+                            </td>
                         <?php } ?>
                     </tr>
-                </thead>
-                <tbody>
-                    <?php while ($rows = mysqli_fetch_assoc($result)) { ?>
-                        <tr>
-                            <td class="text-center"><?php echo $rows['equipamento']; ?></td>
-                            <td class="text-center"><?php echo $rows['unidade']; ?></td>
-                            <td class="text-center"><?php echo $rows['setor']; ?></td>
-                            <td class="text-center"><?php echo $rows['coordenada']; ?></td>
-                            <td class="text-center"><?php echo $rows['usuario']; ?></td>
-                            <td class="text-center"><?php echo $rows['observacao']; ?></td>
-                            <?php if ($_SESSION['nivel'] == "3" or $_SESSION['nivel'] == "2") { ?>
-                                <td>
-                                    <button type="button" class="btn btn-warning text-center" data-toggle="modal" data-target="#editar" data-id="<?php echo $rows['id']; ?>" data-equipamento="<?php echo $rows['equipamento']; ?>" data-patrimonio="<?php echo $rows['patrimonio'] ?>" data-serie="<?php echo $rows['serie']; ?>" data-unidade="<?php echo $rows['unidade']; ?>" data-setor="<?php echo $rows['setor']; ?>" data-coordenada="<?php echo $rows['coordenada']; ?>" data-usuario="<?php echo $rows['usuario']; ?>" data-observacao="<?php echo $rows['observacao']; ?>">Editar</button>
-                                </td>
-                            <?php } ?>
-                        </tr>
-                    <?php } ?>
-                </tbody>
-            </table>
-        </div>
+                <?php } ?>
+            </tbody>
+        </table>
+    </div>
     </div>
 
     <!-- Editar -->
@@ -319,6 +340,19 @@ $result_equipamento = mysqli_query($conexao, $tabela_equipamento);
             modal.find('#recipient-observacao').val(recipientsObservacao)
 
         })
+    </script>
+    <script>
+        var search = document.getElementById('pesquisar');
+
+        search.addEventListener("keydown", function(event) {
+            if (event.key === "Enter") {
+                searchData();
+            }
+        });
+
+        function searchData() {
+            window.location = '?search=' + search.value;
+        }
     </script>
     <br>
 </body>
