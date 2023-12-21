@@ -15,9 +15,9 @@ $result_equipamento = mysqli_query($conexao, $tabela_equipamento);
 
 if (!empty($_GET['search'])) {
     $data = $_GET['search'];
-    $sql = "SELECT * FROM `patrimonio` WHERE patrimonio LIKE ? OR equipamento LIKE ? OR setor LIKE ? ORDER BY `id` DESC";
+    $sql = "SELECT * FROM `patrimonio` WHERE patrimonio LIKE ? OR equipamento LIKE ? OR setor LIKE ?  OR unidade LIKE ? ORDER BY `id` DESC";
     $stmt = $conexao->prepare($sql);
-    $stmt->bind_param('sss', $data, $data, $data);
+    $stmt->bind_param('ssss', $data, $data, $data,$data);
     $stmt->execute();
     $result = $stmt->get_result();
 } else {
@@ -71,12 +71,12 @@ if (!empty($_GET['search'])) {
                 <div class="ml-3 col-2">
                     <?php if ($_SESSION['nivel'] == "3" or $_SESSION['nivel'] == "2") { ?>
                         <button type="button" class="btn btn-primary btn-lg btn-block" data-toggle="modal" data-target="#cadastrar">Cadastrar</button>
-                        <br>
                     <?php } ?>
 
 
                 </div>
             </div>
+            
             <!-- Modal cadastrar -->
             <div class="modal fade" id="cadastrar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
@@ -196,6 +196,7 @@ if (!empty($_GET['search'])) {
             <!-- Fim Modal -->
         </div>
     </div>
+    <br>
     <div class="container">
         <table class="table table-hover ">
             <thead>
