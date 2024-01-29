@@ -17,7 +17,7 @@ if (!empty($_GET['search'])) {
     $data = $_GET['search'];
     $sql = "SELECT * FROM `patrimonio` WHERE patrimonio LIKE ? OR equipamento LIKE ? OR setor LIKE ?  OR unidade LIKE ? ORDER BY `id` DESC";
     $stmt = $conexao->prepare($sql);
-    $stmt->bind_param('ssss', $data, $data, $data,$data);
+    $stmt->bind_param('ssss', $data, $data, $data, $data);
     $stmt->execute();
     $result = $stmt->get_result();
 } else {
@@ -76,7 +76,7 @@ if (!empty($_GET['search'])) {
 
                 </div>
             </div>
-            
+
             <!-- Modal cadastrar -->
             <div class="modal fade" id="cadastrar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
@@ -107,6 +107,11 @@ if (!empty($_GET['search'])) {
 
                                         ?>
                                     </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="recipient-qtd" class="col-form-label bold">Quantidade:</label>
+                                    <input type="number" class="form-control" name="qtd" id="recipient-qtd" autocomplete="off" placeholder="Quantidade" min="1" value="1">
                                 </div>
 
                                 <div class="form-group">
@@ -202,6 +207,7 @@ if (!empty($_GET['search'])) {
             <thead>
                 <tr>
                     <th class="text-center">Nome Equipamento</th>
+                    <th class="text-center">Quantidade</th>
                     <th class="text-center">Unidade</th>
                     <th class="text-center">Setor</th>
                     <th class="text-center">Coordenada</th>
@@ -216,6 +222,7 @@ if (!empty($_GET['search'])) {
                 <?php while ($rows = mysqli_fetch_assoc($result)) { ?>
                     <tr>
                         <td class="text-center"><?php echo $rows['equipamento']; ?></td>
+                        <td class="text-center"><?php echo $rows['qtd']; ?></td>
                         <td class="text-center"><?php echo $rows['unidade']; ?></td>
                         <td class="text-center"><?php echo $rows['setor']; ?></td>
                         <td class="text-center"><?php echo $rows['coordenada']; ?></td>
@@ -223,7 +230,7 @@ if (!empty($_GET['search'])) {
                         <td class="text-center"><?php echo $rows['observacao']; ?></td>
                         <?php if ($_SESSION['nivel'] == "3" or $_SESSION['nivel'] == "2") { ?>
                             <td>
-                                <button type="button" class="btn btn-warning text-center" data-toggle="modal" data-target="#editar" data-id="<?php echo $rows['id']; ?>" data-equipamento="<?php echo $rows['equipamento']; ?>" data-patrimonio="<?php echo $rows['patrimonio'] ?>" data-serie="<?php echo $rows['serie']; ?>" data-unidade="<?php echo $rows['unidade']; ?>" data-setor="<?php echo $rows['setor']; ?>" data-coordenada="<?php echo $rows['coordenada']; ?>" data-usuario="<?php echo $rows['usuario']; ?>" data-observacao="<?php echo $rows['observacao']; ?>">Editar</button>
+                                <button type="button" class="btn btn-warning text-center" data-toggle="modal" data-target="#editar" data-id="<?php echo $rows['id']; ?>" data-equipamento="<?php echo $rows['equipamento']; ?>" data-patrimonio="<?php echo $rows['patrimonio'] ?>" data-serie="<?php echo $rows['serie']; ?>" data-unidade="<?php echo $rows['unidade']; ?>" data-setor="<?php echo $rows['setor']; ?>" data-coordenada="<?php echo $rows['coordenada']; ?>" data-usuario="<?php echo $rows['usuario']; ?>" data-observacao="<?php echo $rows['observacao']; ?>" data-qtd="<?php echo $rows['qtd']; ?>">Editar</button>
                             </td>
                         <?php } ?>
                     </tr>
@@ -257,6 +264,10 @@ if (!empty($_GET['search'])) {
                         <div class="form-group">
                             <label for="recipient-equipamento" class="col-form-label bold">Nome do equipamento:</label>
                             <input type="text" class="form-control" id="recipient-equipamento" name="equipamento">
+                        </div>
+                        <div class="form-group">
+                            <label for="recipient-qtd" class="col-form-label bold">Quantidade:</label>
+                            <input type="number" class="form-control" id="recipient-qtd" name="qtd">
                         </div>
 
                         <div class="form-group">
@@ -320,6 +331,7 @@ if (!empty($_GET['search'])) {
             var button = $(event.relatedTarget) // Button that triggered the modal
             var recipient = button.data('id') // Extract info from data-* attributes
             var recipientNomeEquipamento = button.data('equipamento')
+            var recipientqtd = button.data('qtd')
             var recipientpatrimonio = button.data('patrimonio')
             var recipientserie = button.data('serie')
             var recipientUnidade = button.data('unidade')
@@ -332,6 +344,7 @@ if (!empty($_GET['search'])) {
             var modal = $(this)
             modal.find('#id').val(recipient)
             modal.find('#recipient-equipamento').val(recipientNomeEquipamento)
+            modal.find('#recipient-qtd').val(recipientqtd)
             modal.find('#recipient-patrimonio').val(recipientpatrimonio)
             modal.find('#recipient-serie').val(recipientserie)
             modal.find('#recipient-unidade').val(recipientUnidade)

@@ -22,12 +22,13 @@ if (!empty($_SESSION['id'])) {
 		$html = '';
 		$html .= '<table border="1">';
 		$html .= '<tr>';
-		$html .= '<td colspan="10"><center><b>Planilha Patrimônios</b></center></tr>';
+		$html .= '<td colspan="11"><center><b>Planilha Patrimônios</b></center></tr>';
 		$html .= '</tr>';
 		
 		$html .= '<tr>';
 		$html .= '<td><b>Identificador</b></td>';
 		$html .= '<td><b>Nome equipamento</b></td>';
+		$html .= '<td><b>Quantidade</b></td>';
 		$html .= '<td><b>Patrimônio</b></td>';
 		$html .= '<td><b>Número de série</b></td>';
 		$html .= '<td><b>Unidade</b></td>';
@@ -46,6 +47,7 @@ if (!empty($_SESSION['id'])) {
 			$html .= '<tr>';
 			$html .= '<td>'.$row_msg_contatos["id"].'</td>';
 			$html .= '<td>'.$row_msg_contatos["equipamento"].'</td>';
+			$html .= '<td>'.$row_msg_contatos["qtd"].'</td>';
 			$html .= '<td>'.$row_msg_contatos["patrimonio"].'</td>';
 			$html .= '<td>'.$row_msg_contatos["serie"].'</td>';
 			$html .= '<td>'.$row_msg_contatos["unidade"].'</td>';

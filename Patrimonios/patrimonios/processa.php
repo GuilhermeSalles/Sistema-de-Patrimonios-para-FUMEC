@@ -1,20 +1,28 @@
 <?php
-	include_once("../ConexaoBd/config.php");
-	$equipamento = mysqli_real_escape_string($conexao, $_POST['equipamento']);
-	$patrimonio = mysqli_real_escape_string($conexao, $_POST['patrimonio']);
-	$serie = mysqli_real_escape_string($conexao, $_POST['serie']);
-	$unidade = mysqli_real_escape_string($conexao, $_POST['unidade']);
-	$setor = mysqli_real_escape_string($conexao, $_POST['setor']);
-	$coordenada = mysqli_real_escape_string($conexao, $_POST['coordenada']);
-	$usuario = mysqli_real_escape_string($conexao, $_POST['usuario']);
-	$observacao = mysqli_real_escape_string($conexao, $_POST['observacao']);
-	
+    include_once("../ConexaoBd/config.php");
+
+    $equipamento = mysqli_real_escape_string($conexao, $_POST['equipamento']);
+    $qtd = mysqli_real_escape_string($conexao, $_POST['qtd']);
+    $patrimonio = mysqli_real_escape_string($conexao, $_POST['patrimonio']);
+    $serie = mysqli_real_escape_string($conexao, $_POST['serie']);
+    $unidade = mysqli_real_escape_string($conexao, $_POST['unidade']);
+    $setor = mysqli_real_escape_string($conexao, $_POST['setor']);
+    $coordenada = mysqli_real_escape_string($conexao, $_POST['coordenada']);
+    $usuario = mysqli_real_escape_string($conexao, $_POST['usuario']);
+    $observacao = mysqli_real_escape_string($conexao, $_POST['observacao']);
     
-	$sql = "INSERT INTO `patrimonio` (`equipamento`, `patrimonio`, `serie`, `unidade`,`setor`, `coordenada`, `usuario`,`observacao`) 
-	VALUES ('$equipamento', '$patrimonio', '$serie', '$unidade', '$setor', '$coordenada','$usuario', '$observacao')";
-	
-	$resultado = mysqli_query($conexao, $sql);	
+    // Verifica se o campo de observação está vazio
+    if(empty($observacao)) {
+        // Se estiver vazio, define o valor padrão "Sem observações"
+        $observacao = "Sem observações";
+    }
+    
+    $sql = "INSERT INTO `patrimonio` (`equipamento`, `qtd`, `patrimonio`, `serie`, `unidade`, `setor`, `coordenada`, `usuario`, `observacao`) 
+    VALUES ('$equipamento', '$qtd', '$patrimonio', '$serie', '$unidade', '$setor', '$coordenada', '$usuario', '$observacao')";
+    
+    $resultado = mysqli_query($conexao, $sql);    
 ?>
+
 <!DOCTYPE html>
 <html lang="pt-br">
 	<head>
