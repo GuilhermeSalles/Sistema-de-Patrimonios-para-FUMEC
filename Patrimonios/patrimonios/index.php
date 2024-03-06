@@ -15,9 +15,9 @@ $result_equipamento = mysqli_query($conexao, $tabela_equipamento);
 
 if (!empty($_GET['search'])) {
     $data = $_GET['search'];
-    $sql = "SELECT * FROM `patrimonio` WHERE patrimonio LIKE ? OR equipamento LIKE ? OR setor LIKE ?  OR unidade LIKE ? ORDER BY `id` DESC";
+    $sql = "SELECT * FROM `patrimonio` WHERE patrimonio LIKE ? OR equipamento LIKE ? OR setor LIKE ?  OR unidade LIKE ? OR frid LIKE ? ORDER BY `id` DESC";
     $stmt = $conexao->prepare($sql);
-    $stmt->bind_param('ssss', $data, $data, $data, $data);
+    $stmt->bind_param('sssss', $data, $data, $data, $data, $data);
     $stmt->execute();
     $result = $stmt->get_result();
 } else {
@@ -117,6 +117,11 @@ if (!empty($_GET['search'])) {
                                 <div class="form-group">
                                     <label for="recipient-patrimonio" class="col-form-label bold">Número de Patrimônio:</label>
                                     <input type="text" class="form-control" name="patrimonio" id="recipient-patrimonio" autocomplete="off" placeholder="Número de Patrimônio">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="recipient-frid" class="col-form-label bold">FRID:</label>
+                                    <input type="text" class="form-control" name="frid" id="recipient-frid" autocomplete="off" placeholder="FRID">
                                 </div>
 
                                 <div class="form-group">
@@ -230,7 +235,7 @@ if (!empty($_GET['search'])) {
                         <td class="text-center"><?php echo $rows['observacao']; ?></td>
                         <?php if ($_SESSION['nivel'] == "3" or $_SESSION['nivel'] == "2") { ?>
                             <td>
-                                <button type="button" class="btn btn-warning text-center" data-toggle="modal" data-target="#editar" data-id="<?php echo $rows['id']; ?>" data-equipamento="<?php echo $rows['equipamento']; ?>" data-patrimonio="<?php echo $rows['patrimonio'] ?>" data-serie="<?php echo $rows['serie']; ?>" data-unidade="<?php echo $rows['unidade']; ?>" data-setor="<?php echo $rows['setor']; ?>" data-coordenada="<?php echo $rows['coordenada']; ?>" data-usuario="<?php echo $rows['usuario']; ?>" data-observacao="<?php echo $rows['observacao']; ?>" data-qtd="<?php echo $rows['qtd']; ?>">Editar</button>
+                                <button type="button" class="btn btn-warning text-center" data-toggle="modal" data-target="#editar" data-id="<?php echo $rows['id']; ?>" data-equipamento="<?php echo $rows['equipamento']; ?>" data-patrimonio="<?php echo $rows['patrimonio'] ?>" data-serie="<?php echo $rows['serie']; ?>" data-unidade="<?php echo $rows['unidade']; ?>" data-setor="<?php echo $rows['setor']; ?>" data-coordenada="<?php echo $rows['coordenada']; ?>" data-usuario="<?php echo $rows['usuario']; ?>" data-observacao="<?php echo $rows['observacao']; ?>" data-qtd="<?php echo $rows['qtd']; ?>" data-frid="<?php echo $rows['frid']; ?>">Editar</button>
                             </td>
                         <?php } ?>
                     </tr>
@@ -273,6 +278,11 @@ if (!empty($_GET['search'])) {
                         <div class="form-group">
                             <label for="recipient-patrimonio" class="col-form-label bold">Número de Patrimônio:</label>
                             <input type="text" class="form-control" id="recipient-patrimonio" autocomplete="off" name="patrimonio">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="recipient-frid" class="col-form-label bold">FRID:</label>
+                            <input type="text" class="form-control" name="frid" id="recipient-frid" autocomplete="off" placeholder="FRID">
                         </div>
 
                         <div class="form-group">
@@ -332,6 +342,7 @@ if (!empty($_GET['search'])) {
             var recipient = button.data('id') // Extract info from data-* attributes
             var recipientNomeEquipamento = button.data('equipamento')
             var recipientqtd = button.data('qtd')
+            var recipientfrid = button.data('frid')
             var recipientpatrimonio = button.data('patrimonio')
             var recipientserie = button.data('serie')
             var recipientUnidade = button.data('unidade')
@@ -345,6 +356,7 @@ if (!empty($_GET['search'])) {
             modal.find('#id').val(recipient)
             modal.find('#recipient-equipamento').val(recipientNomeEquipamento)
             modal.find('#recipient-qtd').val(recipientqtd)
+            modal.find('#recipient-frid').val(recipientfrid)
             modal.find('#recipient-patrimonio').val(recipientpatrimonio)
             modal.find('#recipient-serie').val(recipientserie)
             modal.find('#recipient-unidade').val(recipientUnidade)

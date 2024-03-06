@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:8889
--- Generation Time: Dec 18, 2023 at 08:11 PM
--- Server version: 5.7.24
--- PHP Version: 8.0.1
+-- Tempo de geração: 06-Mar-2024 às 15:28
+-- Versão do servidor: 5.7.24
+-- versão do PHP: 8.0.1
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,13 +18,13 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `patrimonios`
+-- Banco de dados: `patrimonios`
 --
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `equipamento`
+-- Estrutura da tabela `equipamento`
 --
 
 CREATE TABLE `equipamento` (
@@ -33,16 +33,17 @@ CREATE TABLE `equipamento` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `equipamento`
+-- Extraindo dados da tabela `equipamento`
 --
 
 INSERT INTO `equipamento` (`id`, `Nome`) VALUES
-(1, 'computador');
+(1, 'computador'),
+(2, 'all in one');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `manutencao`
+-- Estrutura da tabela `manutencao`
 --
 
 CREATE TABLE `manutencao` (
@@ -51,7 +52,7 @@ CREATE TABLE `manutencao` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `manutencao`
+-- Extraindo dados da tabela `manutencao`
 --
 
 INSERT INTO `manutencao` (`id`, `Nome`) VALUES
@@ -60,7 +61,7 @@ INSERT INTO `manutencao` (`id`, `Nome`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `patrimonio`
+-- Estrutura da tabela `patrimonio`
 --
 
 CREATE TABLE `patrimonio` (
@@ -68,28 +69,20 @@ CREATE TABLE `patrimonio` (
   `usuario` varchar(50) NOT NULL,
   `coordenada` varchar(50) NOT NULL,
   `equipamento` varchar(50) NOT NULL,
+  `qtd` int(250) DEFAULT '1',
+  `frid` varchar(11) NOT NULL,
   `patrimonio` varchar(50) NOT NULL,
   `serie` varchar(50) NOT NULL,
   `setor` varchar(50) NOT NULL,
   `unidade` varchar(50) NOT NULL,
   `data` datetime DEFAULT CURRENT_TIMESTAMP,
-  `observacao` varchar(250) NOT NULL DEFAULT 'Sem observações'
+  `observacao` varchar(250) DEFAULT 'Sem observações'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `patrimonio`
---
-
-INSERT INTO `patrimonio` (`id`, `usuario`, `coordenada`, `equipamento`, `patrimonio`, `serie`, `setor`, `unidade`, `data`, `observacao`) VALUES
-(2, 'Guilherme Baltazar', '432', 'computador', '234', '', 'cpd', 'ouro verde', '2023-12-18 12:00:21', 'Sem observações'),
-(3, 'Guilherme Baltazar', '4234', 'computador', '432', '', 'cpd', 'ouro verde', '2023-12-18 12:06:16', 'Sem observações'),
-(4, 'Guilherme Baltazar', '', 'computador', '4234', '4324324', 'cpd', 'ouro verde', '2023-12-18 12:41:41', 'wqe'),
-(5, 'Guilherme Baltazar', '', 'computador', '111', '3111', 'cpd', 'ouro verde', '2023-12-18 12:45:49', 'rewdsf');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `setor`
+-- Estrutura da tabela `setor`
 --
 
 CREATE TABLE `setor` (
@@ -98,7 +91,7 @@ CREATE TABLE `setor` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `setor`
+-- Extraindo dados da tabela `setor`
 --
 
 INSERT INTO `setor` (`id`, `Nome`) VALUES
@@ -107,7 +100,7 @@ INSERT INTO `setor` (`id`, `Nome`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `unidade`
+-- Estrutura da tabela `unidade`
 --
 
 CREATE TABLE `unidade` (
@@ -116,16 +109,17 @@ CREATE TABLE `unidade` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `unidade`
+-- Extraindo dados da tabela `unidade`
 --
 
 INSERT INTO `unidade` (`id`, `Nome`) VALUES
-(1, 'ouro verde');
+(1, 'ouro verde'),
+(2, 'centro');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `usuarios`
+-- Estrutura da tabela `usuarios`
 --
 
 CREATE TABLE `usuarios` (
@@ -138,7 +132,7 @@ CREATE TABLE `usuarios` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `usuarios`
+-- Extraindo dados da tabela `usuarios`
 --
 
 INSERT INTO `usuarios` (`id`, `nome`, `email`, `senha`, `nivel`, `imagem_user`) VALUES
@@ -148,7 +142,7 @@ INSERT INTO `usuarios` (`id`, `nome`, `email`, `senha`, `nivel`, `imagem_user`) 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `usuario_equipamento`
+-- Estrutura da tabela `usuario_equipamento`
 --
 
 CREATE TABLE `usuario_equipamento` (
@@ -157,103 +151,104 @@ CREATE TABLE `usuario_equipamento` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `usuario_equipamento`
+-- Extraindo dados da tabela `usuario_equipamento`
 --
 
 INSERT INTO `usuario_equipamento` (`id`, `Nome`) VALUES
-(1, 'Guilherme Baltazar');
+(1, 'Guilherme Baltazar'),
+(2, 'mateus');
 
 --
--- Indexes for dumped tables
+-- Índices para tabelas despejadas
 --
 
 --
--- Indexes for table `equipamento`
+-- Índices para tabela `equipamento`
 --
 ALTER TABLE `equipamento`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `manutencao`
+-- Índices para tabela `manutencao`
 --
 ALTER TABLE `manutencao`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `patrimonio`
+-- Índices para tabela `patrimonio`
 --
 ALTER TABLE `patrimonio`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `setor`
+-- Índices para tabela `setor`
 --
 ALTER TABLE `setor`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `unidade`
+-- Índices para tabela `unidade`
 --
 ALTER TABLE `unidade`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `usuarios`
+-- Índices para tabela `usuarios`
 --
 ALTER TABLE `usuarios`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `usuario_equipamento`
+-- Índices para tabela `usuario_equipamento`
 --
 ALTER TABLE `usuario_equipamento`
   ADD PRIMARY KEY (`id`);
 
 --
--- AUTO_INCREMENT for dumped tables
+-- AUTO_INCREMENT de tabelas despejadas
 --
 
 --
--- AUTO_INCREMENT for table `equipamento`
+-- AUTO_INCREMENT de tabela `equipamento`
 --
 ALTER TABLE `equipamento`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- AUTO_INCREMENT for table `manutencao`
+-- AUTO_INCREMENT de tabela `manutencao`
 --
 ALTER TABLE `manutencao`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT for table `patrimonio`
+-- AUTO_INCREMENT de tabela `patrimonio`
 --
 ALTER TABLE `patrimonio`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `setor`
+-- AUTO_INCREMENT de tabela `setor`
 --
 ALTER TABLE `setor`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT for table `unidade`
+-- AUTO_INCREMENT de tabela `unidade`
 --
 ALTER TABLE `unidade`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- AUTO_INCREMENT for table `usuarios`
+-- AUTO_INCREMENT de tabela `usuarios`
 --
 ALTER TABLE `usuarios`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 
 --
--- AUTO_INCREMENT for table `usuario_equipamento`
+-- AUTO_INCREMENT de tabela `usuario_equipamento`
 --
 ALTER TABLE `usuario_equipamento`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

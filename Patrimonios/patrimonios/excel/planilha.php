@@ -22,7 +22,7 @@ if (!empty($_SESSION['id'])) {
 		$html = '';
 		$html .= '<table border="1">';
 		$html .= '<tr>';
-		$html .= '<td colspan="11"><center><b>Planilha Patrimônios</b></center></tr>';
+		$html .= '<td colspan="12"><center><b>Planilha Patrimônios</b></center></tr>';
 		$html .= '</tr>';
 		
 		$html .= '<tr>';
@@ -31,6 +31,7 @@ if (!empty($_SESSION['id'])) {
 		$html .= '<td><b>Quantidade</b></td>';
 		$html .= '<td><b>Patrimônio</b></td>';
 		$html .= '<td><b>Número de série</b></td>';
+		$html .= '<td><b>FRID</b></td>';
 		$html .= '<td><b>Unidade</b></td>';
 		$html .= '<td><b>Setor</b></td>';
 		$html .= '<td><b>Coordenada</b></td>';
@@ -50,6 +51,7 @@ if (!empty($_SESSION['id'])) {
 			$html .= '<td>'.$row_msg_contatos["qtd"].'</td>';
 			$html .= '<td>'.$row_msg_contatos["patrimonio"].'</td>';
 			$html .= '<td>'.$row_msg_contatos["serie"].'</td>';
+			$html .= '<td>'.$row_msg_contatos["frid"].'</td>';
 			$html .= '<td>'.$row_msg_contatos["unidade"].'</td>';
 			$html .= '<td>'.$row_msg_contatos["setor"].'</td>';
 			$html .= '<td>'.$row_msg_contatos["coordenada"].'</td>';

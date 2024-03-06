@@ -50,9 +50,9 @@ $result = mysqli_query($conexao, $result_cursos);
                                     <div class="form-group">
                                         <label for="recipient-nivel" class="col-form-label bold">Nível:</label>
                                         <select class="form-control" id="recipient-nivel" name="nivel">
-                                            <option selected value="3">Administrador</option>
+                                            <option value="3">Administrador</option>
                                             <option value="2">Usuario</option>
-                                            <option value="1">Tecnico</option>
+                                            <option value="1">Visualizador</option>
                                         </select>
                                     </div>
                                     <div class="modal-footer">

@@ -3,6 +3,7 @@
 
     $equipamento = mysqli_real_escape_string($conexao, $_POST['equipamento']);
     $qtd = mysqli_real_escape_string($conexao, $_POST['qtd']);
+    $frid = mysqli_real_escape_string($conexao, $_POST['frid']);
     $patrimonio = mysqli_real_escape_string($conexao, $_POST['patrimonio']);
     $serie = mysqli_real_escape_string($conexao, $_POST['serie']);
     $unidade = mysqli_real_escape_string($conexao, $_POST['unidade']);
@@ -17,8 +18,8 @@
         $observacao = "Sem observações";
     }
     
-    $sql = "INSERT INTO `patrimonio` (`equipamento`, `qtd`, `patrimonio`, `serie`, `unidade`, `setor`, `coordenada`, `usuario`, `observacao`) 
-    VALUES ('$equipamento', '$qtd', '$patrimonio', '$serie', '$unidade', '$setor', '$coordenada', '$usuario', '$observacao')";
+    $sql = "INSERT INTO `patrimonio` (`equipamento`, `qtd`, `frid`, `patrimonio`, `serie`, `unidade`, `setor`, `coordenada`, `usuario`, `observacao`) 
+    VALUES ('$equipamento', '$qtd', '$frid', '$patrimonio', '$serie', '$unidade', '$setor', '$coordenada', '$usuario', '$observacao')";
     
     $resultado = mysqli_query($conexao, $sql);    
 ?>
