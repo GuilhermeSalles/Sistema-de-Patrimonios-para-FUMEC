@@ -21,8 +21,26 @@ if (!empty($_GET['search'])) {
     $stmt->execute();
     $result = $stmt->get_result();
 } else {
-    $result_patrimonio = "SELECT * FROM patrimonio order by id DESC";
-    $result = mysqli_query($conexao, $result_patrimonio);
+    $pagina = 1;
+
+    if (isset($_GET['pagina']))
+        $pagina = filter_input(INPUT_GET, "pagina", FILTER_VALIDATE_INT);
+
+    if (!$pagina)
+        $pagina = 1;
+
+    $limite = 10;
+    $inicio = ($pagina * $limite) - $limite;
+
+    // Obtém o total de registros
+    $registros = $conexao->query("SELECT COUNT(id) as count FROM patrimonio")->fetch_assoc()["count"];
+    // Calcula o número total de páginas
+    $paginasT = ceil($registros / $limite);
+
+    // Executa a consulta SQL
+    $query = "SELECT * FROM patrimonio ORDER BY id DESC LIMIT $inicio, $limite";
+
+    $result = $conexao->query($query);
 }
 
 
@@ -207,7 +225,7 @@ if (!empty($_GET['search'])) {
                 </tr>
             </thead>
             <tbody>
-                <?php while ($rows = mysqli_fetch_assoc($result)) { ?>
+                <?php foreach ($result as $rows) : ?>
                     <tr>
                         <td class="text-center"><?php echo $rows['patrimonio']; ?></td>
                         <td class="text-center"><?php echo $rows['frid']; ?></td>
@@ -216,24 +234,33 @@ if (!empty($_GET['search'])) {
                         <td class="text-center"><?php echo $rows['setor']; ?></td>
                         <?php if ($_SESSION['nivel'] == "3" or $_SESSION['nivel'] == "2") { ?>
                             <td>
-                                <button type="button" class="btn btn-warning text-center" data-toggle="modal" data-target="#editar" 
-                                data-id="<?php echo $rows['id']; ?>" 
-                                data-equipamento="<?php echo $rows['equipamento']; ?>" 
-                                data-patrimonio="<?php echo $rows['patrimonio'] ?>" 
-                                data-serie="<?php echo $rows['serie']; ?>" 
-                                data-unidade="<?php echo $rows['unidade']; ?>" 
-                                data-setor="<?php echo $rows['setor']; ?>" 
-                                data-coordenada="<?php echo $rows['coordenada']; ?>" 
-                                data-usuario="<?php echo $rows['usuario']; ?>" 
-                                data-observacao="<?php echo $rows['observacao']; ?>" 
-                                data-qtd="<?php echo $rows['qtd']; ?>" 
-                                data-frid="<?php echo $rows['frid']; ?>">Editar</button>
+                                <button type="button" class="btn btn-warning text-center" data-toggle="modal" data-target="#editar" data-id="<?php echo $rows['id']; ?>" data-equipamento="<?php echo $rows['equipamento']; ?>" data-patrimonio="<?php echo $rows['patrimonio'] ?>" data-serie="<?php echo $rows['serie']; ?>" data-unidade="<?php echo $rows['unidade']; ?>" data-setor="<?php echo $rows['setor']; ?>" data-coordenada="<?php echo $rows['coordenada']; ?>" data-usuario="<?php echo $rows['usuario']; ?>" data-observacao="<?php echo $rows['observacao']; ?>" data-qtd="<?php echo $rows['qtd']; ?>" data-frid="<?php echo $rows['frid']; ?>">Editar</button>
                             </td>
                         <?php } ?>
                     </tr>
-                <?php } ?>
+                <?php endforeach; ?>
+
+
+
             </tbody>
         </table>
+
+        <div class="container">
+    <div class="col-12 text-center">
+        <a href="?pagina=1">Primeira</a>
+        <?php if ($pagina > 1): ?>
+            <a href="?pagina=<?= $pagina - 1 ?>"><i class="fas fa-chevron-left"></i></a>
+        <?php endif; ?>
+
+        <?= $pagina ?>
+
+        <?php if ($pagina < $paginasT): ?>
+            <a href="?pagina=<?= $pagina + 1 ?>"><i class="fas fa-chevron-right"></i></a>
+        <?php endif; ?>
+        <a href="?pagina=<?= $paginasT ?>">Última</a>
+    </div>
+</div>
+
     </div>
     </div>
 
@@ -286,7 +313,7 @@ if (!empty($_GET['search'])) {
                             <h2 style="margin-bottom: 0px; color: rgb(75, 75, 75);">Localização</h2>
                             <hr class="hr3">
                         </div>
-                        
+
                         <div class="form-group">
                             <label for="recipient-unidade" class="col-form-label bold">Unidade:</label>
                             <input type="text" class="form-control" id="recipient-unidade" name="unidade">
