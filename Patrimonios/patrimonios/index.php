@@ -15,7 +15,7 @@ $result_equipamento = mysqli_query($conexao, $tabela_equipamento);
 
 if (!empty($_GET['search'])) {
     $data = $_GET['search'];
-    $sql = "SELECT * FROM `patrimonio` WHERE patrimonio LIKE ? OR equipamento LIKE ? OR setor LIKE ?  OR unidade LIKE ? OR frid LIKE ? ORDER BY `id` DESC";
+    $sql = "SELECT * FROM `patrimonio` WHERE patrimonio LIKE ? OR equipamento LIKE ? OR setor LIKE ?  OR unidade LIKE ? OR rfid LIKE ? ORDER BY `id` DESC";
     $stmt = $conexao->prepare($sql);
     $stmt->bind_param('sssss', $data, $data, $data, $data, $data);
     $stmt->execute();
@@ -38,7 +38,7 @@ if (!empty($_GET['search'])) {
     $paginasT = ceil($registros / $limite);
 
     // Executa a consulta SQL
-    $query = "SELECT * FROM patrimonio ORDER BY id DESC LIMIT $inicio, $limite";
+    $query = "SELECT * FROM patrimonio ORDER BY patrimonio DESC LIMIT $inicio, $limite";
 
     $result = $conexao->query($query);
 }
@@ -215,7 +215,7 @@ if (!empty($_GET['search'])) {
             <thead>
                 <tr>
                     <th class="text-center">Patrimônio</th>
-                    <th class="text-center">FRID</th>
+                    <th class="text-center">RFID</th>
                     <th class="text-center">Nome Equipamento</th>
                     <th class="text-center">Unidade</th>
                     <th class="text-center">Setor</th>
@@ -228,7 +228,7 @@ if (!empty($_GET['search'])) {
                 <?php foreach ($result as $rows) : ?>
                     <tr>
                         <td class="text-center"><?php echo $rows['patrimonio']; ?></td>
-                        <td class="text-center"><?php echo $rows['frid']; ?></td>
+                        <td class="text-center"><?php echo $rows['rfid']; ?></td>
                         <td class="text-center"><?php echo $rows['equipamento']; ?></td>
                         <td class="text-center"><?php echo $rows['unidade']; ?></td>
                         <td class="text-center"><?php echo $rows['setor']; ?></td>
