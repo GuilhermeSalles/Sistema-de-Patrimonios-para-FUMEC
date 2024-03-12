@@ -28,21 +28,6 @@ if (!empty($_GET['search'])) {
 
 ?>
 <?php include 'header-menu.php' ?>
-<style>
-    .noteTamanho {
-        max-width: 15ch;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-    }
-
-    .noteTamanhomodal {
-        max-width: 45ch;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-    }
-</style>
 
 <body>
     <br>
@@ -211,13 +196,11 @@ if (!empty($_GET['search'])) {
         <table class="table table-hover ">
             <thead>
                 <tr>
+                    <th class="text-center">Patrimônio</th>
+                    <th class="text-center">FRID</th>
                     <th class="text-center">Nome Equipamento</th>
-                    <th class="text-center">Quantidade</th>
                     <th class="text-center">Unidade</th>
                     <th class="text-center">Setor</th>
-                    <th class="text-center">Coordenada</th>
-                    <th class="text-center">Usuario</th>
-                    <th class="text-center">Observação</th>
                     <?php if ($_SESSION['nivel'] == "3" or $_SESSION['nivel'] == "2") { ?>
                         <th class="text-center">Ação</th>
                     <?php } ?>
@@ -226,16 +209,25 @@ if (!empty($_GET['search'])) {
             <tbody>
                 <?php while ($rows = mysqli_fetch_assoc($result)) { ?>
                     <tr>
+                        <td class="text-center"><?php echo $rows['patrimonio']; ?></td>
+                        <td class="text-center"><?php echo $rows['frid']; ?></td>
                         <td class="text-center"><?php echo $rows['equipamento']; ?></td>
-                        <td class="text-center"><?php echo $rows['qtd']; ?></td>
                         <td class="text-center"><?php echo $rows['unidade']; ?></td>
                         <td class="text-center"><?php echo $rows['setor']; ?></td>
-                        <td class="text-center"><?php echo $rows['coordenada']; ?></td>
-                        <td class="text-center"><?php echo $rows['usuario']; ?></td>
-                        <td class="text-center"><?php echo $rows['observacao']; ?></td>
                         <?php if ($_SESSION['nivel'] == "3" or $_SESSION['nivel'] == "2") { ?>
                             <td>
-                                <button type="button" class="btn btn-warning text-center" data-toggle="modal" data-target="#editar" data-id="<?php echo $rows['id']; ?>" data-equipamento="<?php echo $rows['equipamento']; ?>" data-patrimonio="<?php echo $rows['patrimonio'] ?>" data-serie="<?php echo $rows['serie']; ?>" data-unidade="<?php echo $rows['unidade']; ?>" data-setor="<?php echo $rows['setor']; ?>" data-coordenada="<?php echo $rows['coordenada']; ?>" data-usuario="<?php echo $rows['usuario']; ?>" data-observacao="<?php echo $rows['observacao']; ?>" data-qtd="<?php echo $rows['qtd']; ?>" data-frid="<?php echo $rows['frid']; ?>">Editar</button>
+                                <button type="button" class="btn btn-warning text-center" data-toggle="modal" data-target="#editar" 
+                                data-id="<?php echo $rows['id']; ?>" 
+                                data-equipamento="<?php echo $rows['equipamento']; ?>" 
+                                data-patrimonio="<?php echo $rows['patrimonio'] ?>" 
+                                data-serie="<?php echo $rows['serie']; ?>" 
+                                data-unidade="<?php echo $rows['unidade']; ?>" 
+                                data-setor="<?php echo $rows['setor']; ?>" 
+                                data-coordenada="<?php echo $rows['coordenada']; ?>" 
+                                data-usuario="<?php echo $rows['usuario']; ?>" 
+                                data-observacao="<?php echo $rows['observacao']; ?>" 
+                                data-qtd="<?php echo $rows['qtd']; ?>" 
+                                data-frid="<?php echo $rows['frid']; ?>">Editar</button>
                             </td>
                         <?php } ?>
                     </tr>
@@ -294,8 +286,7 @@ if (!empty($_GET['search'])) {
                             <h2 style="margin-bottom: 0px; color: rgb(75, 75, 75);">Localização</h2>
                             <hr class="hr3">
                         </div>
-
-
+                        
                         <div class="form-group">
                             <label for="recipient-unidade" class="col-form-label bold">Unidade:</label>
                             <input type="text" class="form-control" id="recipient-unidade" name="unidade">
